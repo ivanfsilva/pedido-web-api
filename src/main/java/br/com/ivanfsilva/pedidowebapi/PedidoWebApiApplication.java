@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.ivanfsilva.pedidowebapi.domain.Categoria;
 import br.com.ivanfsilva.pedidowebapi.domain.Cidade;
+import br.com.ivanfsilva.pedidowebapi.domain.Cliente;
+import br.com.ivanfsilva.pedidowebapi.domain.Endereco;
 import br.com.ivanfsilva.pedidowebapi.domain.Estado;
 import br.com.ivanfsilva.pedidowebapi.domain.Produto;
+import br.com.ivanfsilva.pedidowebapi.domain.enums.TipoCliente;
 import br.com.ivanfsilva.pedidowebapi.repositories.CategoriaRepository;
 import br.com.ivanfsilva.pedidowebapi.repositories.CidadeRepository;
+import br.com.ivanfsilva.pedidowebapi.repositories.ClienteRepository;
+import br.com.ivanfsilva.pedidowebapi.repositories.EnderecoRepository;
 import br.com.ivanfsilva.pedidowebapi.repositories.EstadoRepository;
 import br.com.ivanfsilva.pedidowebapi.repositories.ProdutoRepository;
 
@@ -21,16 +26,17 @@ public class PedidoWebApiApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-
 	@Autowired
 	private ProdutoRepository produtoRepository;
-
 	@Autowired
 	private EstadoRepository estadoRepository;
-
 	@Autowired
 	private CidadeRepository cidadeRepository;
-
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidoWebApiApplication.class, args);
 	}
@@ -67,6 +73,17 @@ public class PedidoWebApiApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "23423434", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("1213", "32234"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "234234", cli1, c1);
+		Endereco e2 = new Endereco(null, "Av. Matos", "105", "Sala 800", "Centro", "6747567", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
 	}
 
