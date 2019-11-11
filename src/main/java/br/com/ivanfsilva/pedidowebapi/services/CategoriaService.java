@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.ivanfsilva.pedidowebapi.domain.Categoria;
+import br.com.ivanfsilva.pedidowebapi.dto.CategoriaDTO;
 import br.com.ivanfsilva.pedidowebapi.repositories.CategoriaRepository;
 import br.com.ivanfsilva.pedidowebapi.services.exceptions.DataIntegrityException;
 import br.com.ivanfsilva.pedidowebapi.services.exceptions.ObjectNotFoundException;
@@ -55,6 +56,10 @@ public class CategoriaService {
 				orderBy);
 		
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 }
